@@ -5,11 +5,13 @@
     "types": [
       "node"
     ],
-    "rootDir": "src",
+    "rootDir": "../../",
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo"
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "../../packages/**/*.ts",
+    "../../packages/**/*.js"
   ],
   "exclude": [
     "out-tsc",
@@ -18,6 +20,8 @@
     "jest.config.cts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
+    "../../packages/**/*.spec.ts",
+    "../../packages/**/*.test.ts",
     "eslint.config.js",
     "eslint.config.cjs",
     "eslint.config.mjs"
