@@ -1,3 +1,4 @@
+/* eslint-disable @nx/enforce-module-boundaries */
 import { errorMiddleware } from './../../../packages/error-handler/error-middleware';
 import express from 'express';
 import cors from 'cors';
