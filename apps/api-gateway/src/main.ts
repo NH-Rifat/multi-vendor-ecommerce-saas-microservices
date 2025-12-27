@@ -4,53 +4,48 @@
  */
 
 import express from "express";
+import * as path from "path";
 import cors from "cors";
-import proxy from "express-http-proxy";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
+import cookieParser from "cookie-parser";
+import proxy from "express-http-proxy";
 import swaggerUi from "swagger-ui-express";
 import axios from "axios";
-import cookieParser from "cookie-parser";
-
-import * as path from "path";
 
 const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    credentials: true,
+    origin: ["http://localhost:3000"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
-app.use(cookieParser());
 app.use(morgan("dev"));
-app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-  })
-);
-app.use(express.json({ limit: "100mb" })); // Body limit is 10
-app.use(express.urlencoded({ extended: true, limit: "100mb" }));
-app.set("trust proxy", 1); // Trust first proxy
+app.use(express.json({ limit: "100mb" }));
+app.use(express.urlencoded({ limit: "100mb", extended: true }));
+app.use(cookieParser());
+app.set("trust proxy", 1);
 
-// Swagger setup
-const swaggerDocumentUrl = "http://localhost:6000/api-docs-json";
-axios
-  .get(swaggerDocumentUrl)
-  .then((response) => {
-    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(response.data));
-  })
-  .catch((error) => {
-    console.error("Error fetching Swagger document:", error);
-  });
-
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: (req: any) => (req.user ? 1000 : 100), // limit each IP to 100 requests per windowMs
+//   message: "Too many requests from this IP, please try again later.",
+//   standardHeaders: true,
+//   legacyHeaders: true,
+//   keyGenerator: (req: any) => {
+//     return req.ip;
+//   },
+// });
+// app.use(limiter);
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
-app.get("/api", (req, res) => {
+app.get("/gateway-health", (req, res) => {
   res.send({ message: "Welcome to api-gateway!" });
 });
+
+app.use("/", proxy("http://localhost:6001"));
 
 const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {
