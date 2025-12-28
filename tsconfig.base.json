@@ -16,6 +16,10 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@eshop/source"]
+    "customConditions": ["@eshop/source"],
+    "paths": {
+      "@eshop/error-handler": ["packages/error-handler/index.ts"],
+      "@eshop/prisma": ["generated/prisma/client.ts"]
+    }
   }
 }
