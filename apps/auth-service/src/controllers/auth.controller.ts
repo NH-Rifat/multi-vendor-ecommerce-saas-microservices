@@ -13,9 +13,7 @@ export const userRegistration =async (req: Request, res: Response, next: NextFun
       return res.status(400).json({ message: 'User with this email already exists' });
     }
 
-    const newUser = await prisma.users.create({
-      data: { name, email, password },
-    });
+    await checkOtpRestriction(email,next);
 
     res.status(201).json({ message: 'User registered successfully', userId: newUser.id });
   } catch (error) {
