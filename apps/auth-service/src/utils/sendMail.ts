@@ -38,6 +38,6 @@ export const sendEmail = async (to: string, subject: string, templateName: strin
         return true;
     } catch (error) {
         console.error(`Failed to send email to ${to}:`, error);
-        throw error;
+        return false
     }
 }

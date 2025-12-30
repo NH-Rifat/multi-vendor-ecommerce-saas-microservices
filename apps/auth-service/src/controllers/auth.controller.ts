@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { validationRegistrationData } from "../utils/auth.helper";
+import { checkOtpRestriction, sendOtp, trackOtpRequests, validationRegistrationData } from "../utils/auth.helper";
 import { prisma } from "../lib/prisma";
 
 // Register a new user
@@ -14,8 +14,10 @@ export const userRegistration =async (req: Request, res: Response, next: NextFun
     }
 
     await checkOtpRestriction(email,next);
+    await trackOtpRequests(email,next);
+    await sendOtp(name,email,"user-registration-otp");
 
-    res.status(201).json({ message: 'User registered successfully', userId: newUser.id });
+    res.status(200).json({ message: 'OTP sent to email for verification' });
   } catch (error) {
     next(error);
   }
