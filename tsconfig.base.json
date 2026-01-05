@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
+    "baseUrl": ".",
     "customConditions": ["@eshop/source"],
     "paths": {
       "@eshop/error-handler": ["packages/error-handler/index.ts"],

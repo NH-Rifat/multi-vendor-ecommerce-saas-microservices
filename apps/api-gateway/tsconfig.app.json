@@ -6,11 +6,26 @@
       "node",
       "express"
     ],
-    "rootDir": "src",
+    "rootDir": "../../",
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo"
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "../../packages/**/*.ts",
+    "../../packages/**/*.js",
+    "../../generated/**/*.ts"
   ],
-  "exclude": []
+  "exclude": [
+    "out-tsc",
+    "dist",
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "../../packages/**/*.spec.ts",
+    "../../packages/**/*.test.ts",
+    "eslint.config.js",
+    "eslint.config.cjs",
+    "eslint.config.mjs"
+  ]
 }

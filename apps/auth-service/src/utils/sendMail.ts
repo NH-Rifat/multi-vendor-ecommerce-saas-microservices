@@ -27,7 +27,7 @@ export const sendEmail = async (to: string, subject: string, templateName: strin
         const htmlContent = await renderEmailTemplate(templateName, templateData);
 
         const mailOptions = {
-            from: `<${process.env.SMTP_FROM_EMAIL}>`,
+            from: `<${process.env.SMTP_USER}>`,
             to,
             subject,
             html: htmlContent,
